@@ -1,0 +1,17 @@
+### download data (second round, September 2020) ###
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/MD5.txt
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/X204SC20031286-Z01-F001_01_20200922.zip
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/X204SC20031286-Z01-F001_02_20200922.zip # didn't work the first time, and then it worked after talking to Galal
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/X204SC20031286-Z01-F001_03_20200922.zip
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/X204SC20031286-Z01-F001_04_20200922.zip
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/X204SC20031286-Z01-F001_05_20200922.zip
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/X204SC20031286-Z01-F001_06_20200922.zip
+wget -c https://englandaws-data1.s3-eu-west-1.amazonaws.com/out/CP2020021200027/X204SC20031286-Z01-F003/checkSize.xls
+
+### unzip folders(second round, September 2020) ###
+unzip X204SC20031286-Z01-F001_01_20200922.zip -d /home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20
+unzip X204SC20031286-Z01-F001_02_20200922.zip -d /home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20
+unzip X204SC20031286-Z01-F001_03_20200922.zip -d /home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20
+unzip X204SC20031286-Z01-F001_04_20200922.zip -d /home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20
+unzip X204SC20031286-Z01-F001_05_20200922.zip -d /home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20
+unzip X204SC20031286-Z01-F001_06_20200922.zip -d /home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20
