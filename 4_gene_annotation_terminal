@@ -39,6 +39,14 @@ awk '{if($3=="exon")print $0}' GCF_000233375.1_ICSASG_v2_genomic.gff |sort -k1,1
 bedtools complement -i GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff -g GCF_000233375.1_ICSASG_v2_genomic_chrlength_sorted.txt  | bedtools intersect -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_gene.gff > GCF_000233375.1_ICSASG_v2_genomic_intron.BED
 
 
-for feature in GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff  GCF_000233375.1_ICSASG_v2_genomic.gff GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff ;
+for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED ;
 do bedtools intersect -a GCF_000233375.1_ICSASG_v2_genomic_CpG_sorted.BED -b $feature | wc -l ; done
+
+for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED ;
+do bedtools intersect -a myDiff_5x.BED -b $feature | wc -l ; done
+
+for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED ;
+do bedtools intersect -a DMC_5X.BED -b $feature | wc -l ; done
+
+
 
