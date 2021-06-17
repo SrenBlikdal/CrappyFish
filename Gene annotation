@@ -1,0 +1,27 @@
+# gene annotation 
+mkdir Annotation 
+cd annotation	
+module load seqkit
+module load bedtools
+
+## make "genome" file with chromosome length
+cat ~/data/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa | awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($0,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' | awk '{print $1,$14}'| head -n -1 |awk -v OFS='\t' '{$1=$1}1' > GCF_000233375.1_ICSASG_v2_genomic.chrlength.txt
+# Hardcode the mitochrondrial length  
+echo -e "NC_001960.1\t16665" >> GCF_000233375.1_ICSASG_v2_genomic.chrlength.txt | sort GCF_000233375.1_ICSASG_v2_genomic.chrlength.txt -k1,1V > GCF_000233375.1_ICSASG_v2_genomic_chrlength_sorted.txt
+
+#Get the CpG sites 
+seqkit locate --only-positive-strand --pattern "(CG)" data/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -o annotation/GCF_000233375.1_ICSASG_v2_genomic_CpG.txt
+#sort the file
+tail -n +2 GCF_000233375.1_ICSASG_v2_genomic_CpG.txt |  awk '{print $1,$5,$6}' | awk -v OFS='\t' '{$1=$1}1' | sortBed  > GCF_000233375.1_ICSASG_v2_genomic_CpG_sorted.BED 
+
+#First step is to download GFF3 file from NCBI
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/233/375/GCF_000233375.1_ICSASG_v2/GCF_000233375.1_ICSASG_v2_genomic.gff.gz
+gunzip -d GCF_000233375.1_ICSASG_v2_genomic.gff.gz
+## Reference for format: https://learn.gencore.bio.nyu.edu/ngs-file-formats/gff3-format
+
+awk '{if($3=="gene")print $0}' GCF_000233375.1_ICSASG_v2_genomic.gff > GCF_000233375.1_ICSASG_v2_genomic_gene.gff 
+#And a merged GFF 
+sort -k1,1V -k4,4V -k5,5V -k3,3d GCF_000233375.1_ICSASG_v2_genomic_gene.gff | bedtools merge > GCF_000233375.1_ICSASG_v2_genomic_gene_merged.gff
+
+for feature in GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff  GCF_000233375.1_ICSASG_v2_genomic.gff GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff ;
+do bedtools intersect -a GCF_000233375.1_ICSASG_v2_genomic_CpG_sorted.BED -b $feature | wc -l ; done
