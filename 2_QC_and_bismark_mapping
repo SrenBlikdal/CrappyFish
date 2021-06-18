@@ -1,0 +1,75 @@
+#!/bin/bash
+
+### PBS Job Batch Options
+### Note: No commands may be executed until after the #PBS lines
+### Account information # MY BIO ACCOUNT
+#PBS -W group_list=ku_00012 -A ku_00012
+### Job name (comment out the next line to get the name of the script used as the job name) # CHANGE ACCORDINGLY
+#PBS -N CrappyFish_D1_D10_D11
+### Output files (comment out the next 2 lines to get the job name used instead) # CHANGE ACCORDINGLY
+#PBS -e CrappyFish_D1_D10_D11.err
+#PBS -o CrappyFish_D1_D10_D11.log
+### Only send mail when job is aborted or terminates abnormally
+#PBS -m abe
+#PBS -M miyakokodama@gmail.com
+### Number of nodes
+#PBS -l nodes=1:ppn=40:thinnode
+### Memory
+#PBS -l mem=180gb
+### Requesting time - format is <days>:<hours>:<minutes>:<seconds>
+#PBS -l walltime=300:00:00
+### Add current shell environment to job (comment out if not needed)
+#PBS -V
+### Forward X11 connection (comment out if not needed)
+###PBS -X
+
+### Script below ###
+module load shared tools
+module load tools
+module load anaconda3/4.4.0
+module load java/1.8.0-openjdk
+module load bowtie2/2.3.4.1 python36 samtools/1.9 htslib/1.9 gcc perl pigz/2.3.4
+module load bismark/0.22.1 fastqc/0.11.8 trim_galore/0.6.4 adapterremoval/2.2.4
+
+# change the file location accordingly
+raw_data=/home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20/X204SC20031286-Z01-F001_01/raw_data
+out_direc=/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20
+
+for SAMPLE in 
+do
+
+        mkdir -p $out_direc/2_fastqc_before/$SAMPLE
+        mkdir -p $out_direc/3_adapterremoval/$SAMPLE
+        mkdir -p $out_direc/4_fastqc_after/$SAMPLE
+        mkdir -p $out_direc/5_bismark/$SAMPLE
+
+        # fastqc - before trimming (add "-t 4" later)
+        cd $raw_data/$SAMPLE
+        file=`ls -a *fq.gz | sort`
+        fastqc $file -t 10 -o $out_direc/2_fastqc_before/$SAMPLE
+
+        # AdapterRemoval
+        cd $out_direc/3_adapterremoval/$SAMPLE
+        AdapterRemoval --threads 10 --file1 $raw_data/$SAMPLE/*_1.fq.gz --file2 $raw_data/$SAMPLE/*_2.fq.gz --basename $SAMPLE --trimns --trimqualities --minlength 25 --gzip --settings $SAMPLE.settings
+
+        # fastqc - after trimming
+        cd $out_direc/3_adapterremoval/$SAMPLE
+        file=`ls -a $SAMPLE.pair*.gz | sort`
+        fastqc $file -t 10 -o $out_direc/4_fastqc_after/$SAMPLE
+
+        # bismark
+        cd $out_direc/3_adapterremoval/$SAMPLE
+        bismark --multi 10 --genome /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome --output_dir $out_direc/5_bismark/$SAMPLE -1 $SAMPLE.pair1.truncated.gz -2 $SAMPLE.pair2.truncated.gz
+
+        # deduplication
+        cd $out_direc/5_bismark/$SAMPLE
+        deduplicate_bismark --paired --bam *bam --multi 10
+
+        # methylation extraction (excluded "--counts"; excluded "--multi")
+        cd $out_direc/5_bismark/$SAMPLE
+        bismark_methylation_extractor -p --gzip --bedGraph --scaffolds --buffer_size 85%  --multi 10 --genome_folder /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome $SAMPLE.pair1.truncated.gz_bismark_bt2_pe.multiple.deduplicated.bam
+
+done
+
+# get stats
+qstat -f $PBS_JOBID
