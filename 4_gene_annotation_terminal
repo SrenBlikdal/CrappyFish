@@ -43,10 +43,11 @@ for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1
 do bedtools intersect -a GCF_000233375.1_ICSASG_v2_genomic_CpG_sorted.BED -b $feature | wc -l ; done
 
 for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED ;
-do bedtools intersect -a myDiff_5x.BED -b $feature | wc -l ; done
+do bedtools intersect -a myDiff_5X.BED -b $feature | wc -l ; done
 
 for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED ;
 do bedtools intersect -a DMC_5X.BED -b $feature | wc -l ; done
 
-
+for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_gene.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED ; 
+do bedtools intersect -a mysigdmr_5X.BED -b $feature | wc -l ; done
 
