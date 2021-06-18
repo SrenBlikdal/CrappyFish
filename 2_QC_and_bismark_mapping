@@ -67,7 +67,7 @@ do
 
         # methylation extraction (excluded "--counts"; excluded "--multi")
         cd $out_direc/5_bismark/$SAMPLE
-        bismark_methylation_extractor -p --gzip --bedGraph --scaffolds --buffer_size 85%  --multi 10 --genome_folder /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome $SAMPLE.pair1.truncated.gz_bismark_bt2_pe.multiple.deduplicated.bam
+        bismark_methylation_extractor -p --gzip --bedGraph --scaffolds --buffer_size 85% --ignore_r2 3 --multi 10 -o /home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/5.1_bismark --genome_folder /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome $SAMPLE.pair1.truncated.gz_bismark_bt2_pe.multiple.deduplicated.bam
 
 done
 
