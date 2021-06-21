@@ -1,5 +1,5 @@
 ---
-title: "PCA"
+title: "PCA_Crappyfish"
 author: "Søren Blikdal Hansen"
 date: "6/21/2021"
 output: html_document
@@ -8,25 +8,22 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Load libraries 
 
 ```{r}
 library(methylKit)
 library(tidyverse)
 ```
 
-## R Markdown
+## Load workspace
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
+```{r}
 methylkitworkspace<-("/home/sren/Documents/Master_thesis/Crappyfish/methylkit_19samples_10X_MN_210129.RData")
 load(methylkitworkspace)
 rm(myDiff_MN)
 ```
 
-## Including Plots
+## Make design matrix 
 
 ```{r}
 sample.id <- c("D1","D2","D3","D4","D5","D6","D8","D9","D10", "D11","D12","D13","D14","D15","D16","D17","D18","D19","D20")
@@ -35,10 +32,10 @@ treatment<-gsub(1,"sick",treatment) %>% gsub("0","healthy",.)
 design.matrix<-bind_cols(ID=sample.id, treatment=treatment)
 ```
 
-
+## Make and plot PCA 
 You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
+```{r PCA}
 pca <- percMethylation(meth.filtered) %>% t(.) %>% prcomp(.,center=T, scale. = F)
 percent_variance_pca<-summary(pca)$importance["Proportion of Variance",] * 100
 pca_plot<-as_tibble(pca$x) %>% bind_cols(design.matrix)
@@ -50,5 +47,3 @@ riance)")) +
 ylab(label = paste("PC2 (", percent_variance_pca[2], "percent of the total va
 riance)"))+ggtitle("Crappyfish PCA 10X")
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
