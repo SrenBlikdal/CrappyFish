@@ -21,3 +21,29 @@ nanopolish index -d fast5/ output.fastq
 ### Alignment 
 minimap2 -a -t 40 -x map-ont /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa output.fastq | samtools sort -@ 39 -T tmp -o output.sorted.bam
 samtools index output.sorted.bam
+### Call methylation
+##ROI1
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027312.1:39,651,908-39,661,992" > methylation_calls_ROI1.tsv
+##ROI2
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027311.1:58,018,149-58,046,648" > methylation_calls_ROI2.tsv
+##ROI3
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027302.1:36,334,000-36,348,000" > methylation_calls_ROI3.tsv
+##ROI4
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027305.1:35,740,000-35,755,000" > methylation_calls_ROI4.tsv
+##ROI5
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027312.1:17,752,168-17,765,967" > methylation_calls_ROI5.tsv
+##ROI6
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027313.1:61,012,000-61,030,000" > methylation_calls_ROI6.tsv
+##ROI7
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027318.1:25,840,000-25,860,000" > methylation_calls_ROI7.tsv
+##ROI8
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027302.1:50,232,000-50,245,000" > methylation_calls_ROI8.tsv
+##ROI9
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027303.1:15,205,000-15,225,000" > methylation_calls_ROI9.tsv
+##ROI10
+nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027310.1:26,100,000-26,115,000" > methylation_calls_ROI10.tsv
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+calculate_methylation_frequency.py methylation_calls_$ROI.tsv > methylation_frequency_$ROI.tsv
+done 
