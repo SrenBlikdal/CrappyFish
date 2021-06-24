@@ -1,0 +1,23 @@
+module load anaconda3/4.4.0 
+module load nanopolish/0.13.2
+module load samtools/1.9
+module load minimap2/2.6
+
+### first step is to download raw files to computerome
+scp -r /home/sren/Downloads/D1_testrun_210624 soblha@ssh.computerome.dk:/home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624
+### 2nd is basecalling 
+guppy_basecaller --compress_fastq -i /home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624 -s /home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624
+ --cpu_threads_per_caller 28 --num_callers 1 -c dna_r9.4.1_450bps_hac.cfg
+
+cd /home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624/D1_testrun_210624
+### unzip
+tar -xvf fast5.tar.gz
+tar -xvf pass.tar.gz 
+tar -xvf fail.tar.gz 
+
+### Data preprocessing 
+nanopolish index -d fast5/ output.fastq
+
+### Alignment 
+minimap2 -a -t 40 -x map-ont /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa output.fastq | samtools sort -@ 39 -T tmp -o output.sorted.bam
+samtools index output.sorted.bam
