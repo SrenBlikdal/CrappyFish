@@ -1,0 +1,23 @@
+### prepare input for GO-analysis
+# 1st DMCs and DMRs are divided into hyper and hypo methylated bed files, so we have: DMCs_hyper_5X.BED DMCs_hypo_5X.BED DMRs_hyper_5X.BED DMRs_hypo_5X.BED 
+
+### We make a background file with all covered sites (myDiff) and each feature 250promoter, 1Kpromoter, 6Kpromoter
+for i in 250promoter 1Kpromoter 6Kpromoter
+do bedtools intersect -a GCF_000233375.1_ICSASG_v2_genomic_$i.gff -b myDiff. | cut -f 9 |tr ";" "\n" | grep -E '^(Dbxref=GeneID):' | sed -e "s/^Dbxref=GeneID://" > 6KPx$i.txt
+done
+
+### We find overlaps between 250P and write the genes with overlaps into files 
+for i in DMCs_hyper_5X DMCs_hypo_5X DMRs_hyper_5X DMRs_hypo_5X
+do bedtools intersect -a GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff -b $i.BED | cut -f 9 |tr ";" "\n" | grep -E '^(Dbxref=GeneID):' | sed -e "s/^Dbxref=GeneID://" > 250Px$i.txt
+done
+
+### We find overlaps between 1KP and write the genes with overlaps into files 
+for i in DMCs_hyper_5X DMCs_hypo_5X DMRs_hyper_5X DMRs_hypo_5X
+do bedtools intersect -a GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff -b $i.BED | cut -f 9 |tr ";" "\n" | grep -E '^(Dbxref=GeneID):' | sed -e "s/^Dbxref=GeneID://" > 1KPx$i.txt
+done
+
+### We find overlaps between 6KP and write the genes with overlaps into files 
+for i in DMCs_hyper_5X DMCs_hypo_5X DMRs_hyper_5X DMRs_hypo_5X
+do bedtools intersect -a GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff -b $i.BED | cut -f 9 |tr ";" "\n" | grep -E '^(Dbxref=GeneID):' | sed -e "s/^Dbxref=GeneID://" > 6KPx$i.txt
+done
+
