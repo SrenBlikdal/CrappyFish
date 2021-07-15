@@ -35,7 +35,7 @@ module load bismark/0.22.1 fastqc/0.11.8 trim_galore/0.6.4 adapterremoval/2.2.4
 raw_data=/home/projects/ku-cbd/data/HoloFish/CrappyFish_Epigenome_RawData_20samples_new_24Sep20/X204SC20031286-Z01-F001_01/raw_data
 out_direc=/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20
 
-for SAMPLE in 
+for SAMPLE in {fill in sample names}
 do
 
         mkdir -p $out_direc/2_fastqc_before/$SAMPLE
