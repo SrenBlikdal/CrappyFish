@@ -10,7 +10,7 @@ cat ~/data/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa | awk '$0 ~ ">
 echo -e "NC_001960.1\t16665" >> GCF_000233375.1_ICSASG_v2_genomic.chrlength.txt | sort GCF_000233375.1_ICSASG_v2_genomic.chrlength.txt -k1,1V > GCF_000233375.1_ICSASG_v2_genomic_chrlength_sorted.txt
 
 #Get the CpG sites 
-seqkit locate --only-positive-strand --pattern "(CG)" data/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -o annotation/GCF_000233375.1_ICSASG_v2_genomic_CpG.txt
+seqkit locate --only-positive-strand --ignore-case --pattern "(CG)" GCF_000233375.1_ICSASG_v2_genomic.fa -o GCF_000233375.1_ICSASG_v2_genomic_CpG.txt -j 40 -r
 #sort the file
 tail -n +2 GCF_000233375.1_ICSASG_v2_genomic_CpG.txt |  awk '{print $1,$5,$6}' | awk -v OFS='\t' '{$1=$1}1' | sortBed  > GCF_000233375.1_ICSASG_v2_genomic_CpG_sorted.BED 
 
