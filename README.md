@@ -1,4 +1,4 @@
-#CrappyFish data analysis<br/>
+CrappyFish data analysis<br/>
 
 list of scripts:\
 1_Download_data.sh\
