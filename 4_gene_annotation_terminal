@@ -33,7 +33,7 @@ bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff -g GCF_000233
 
 #Make GFF of only exons
 awk '{if($3=="exon")print $0}' GCF_000233375.1_ICSASG_v2_genomic.gff |sort -k1,1V -k4,4V -k5,5V -k3,3d | bedtools merge | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff| bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff > GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff
-
+awk '{if($3=="exon")print $0}' GCF_000233375.1_ICSASG_v2_genomic.gff |sort -k1,1V -k4,4V -k5,5V -k3,3d | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff| bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff > GCF_000233375.1_ICSASG_v2_genomic_exon.gff
 #Make BED of only introns
 bedtools complement -i GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff -g GCF_000233375.1_ICSASG_v2_genomic_chrlength_sorted.txt  | bedtools intersect -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_gene.gff | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff| bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff > GCF_000233375.1_ICSASG_v2_genomic_intron.BED
 
