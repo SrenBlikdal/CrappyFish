@@ -44,7 +44,7 @@ bedtools complement -i GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff -g GCF_
 
 
 ## Make BED of only intergenic regions (all the rest
-cat GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_intron.gff GCF_000233375.1_ICSASG_v2_genomic_exon.gff  |sort -k1,1V -k4,4V -k5,5V -k3,3d | bedtools complement -i stdin -g GCF_000233375.1_ICSASG_v2_genomic_chrlength_sorted.txt > GCF_000233375.1_ICSASG_v2_genomic_intergenic.BED
+cat GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_exon.gff  |sort -k1,1V -k4,4V -k5,5V -k3,3d | bedtools complement -i stdin -g GCF_000233375.1_ICSASG_v2_genomic_chrlength_sorted.txt | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_intron.BED > GCF_000233375.1_ICSASG_v2_genomic_intergenic.BED
 
 
 for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED GCF_000233375.1_ICSASG_v2_genomic_intergenic.BED;
