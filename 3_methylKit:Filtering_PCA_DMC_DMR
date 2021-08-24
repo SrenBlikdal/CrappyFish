@@ -34,23 +34,28 @@ my_obj<-methRead(file.list, sample.id = list("D1","D2","D3","D4","D5","D6","D8",
 #treatment is meta data from Davides records:0 is healthy/Mycoplasma, 1 correspond to sick/Avivibro. 
 #context =CpG, means we only look at CpG sites 
 
-filtered.my_obj=filterByCoverage(my_obj,lo.count=5,lo.perc=NULL, hi.count=NULL,hi.perc=99.9)
+filtered.my_obj_5X=filterByCoverage(my_obj,lo.count=5,lo.perc=NULL, hi.count=NULL,hi.perc=99.9)
+filtered.my_obj_10X=filterByCoverage(my_obj,lo.count=10,lo.perc=NULL, hi.count=NULL,hi.perc=99.9)
 
-meth.filtered<-unite(filtered.my_obj, destrand=F)
+meth.filtered_5X<-unite(filtered.my_obj_5X, destrand=F)
+meth.filtered_10X<-unite(filtered.my_obj_10X, destrand=F)
 
-print(dim(meth.filtered))
+print(dim(meth.filtered_5X))
+print(dim(meth.filtered_10X))
 
-jpeg("MethylKit_19samples_5X_210122_PCA.jpg")
-PCASamples(meth.filtered)
-dev.off()
+myDiff_5X<-calculateDiffMeth(meth.filtered_5X, mc.cores=40)
+myDiff_10X<-calculateDiffMeth(meth.filtered_10X, mc.cores=40)
 
-myDiff<-calculateDiffMeth(meth.filtered, mc.cores=8)
-mydmr=edmr(myDiff, mode=1, ACF=TRUE)
-mysigdmr=filter.dmr(mydmr, DMR.qvalue = 0.01, mean.meth.diff = 0, num.CpGs = 3, num.DMCs = 1)
+mydmr_5X=edmr(myDiff, mode=1, ACF=TRUE)
+mysigdmr_5X=filter.dmr(mydmr, DMR.qvalue = 0.01, mean.meth.diff = 0, num.CpGs = 3, num.DMCs = 1)
+
+mydmr_10X=edmr(myDiff, mode=1, ACF=TRUE)
+mysigdmr_10X=filter.dmr(mydmr, DMR.qvalue = 0.01, mean.meth.diff = 0, num.CpGs = 3, num.DMCs = 1)
 
 #clean
 rm(my_obj)
-rm(filtered.my_obj)
+rm(filtered.my_obj_5X)
+rm(filtered.my_obj_10X)
 
-save.image(file ="MethylKit_19samples_5X_210122.RData")
+save.image(file ="MethylKit_19samples_210824.RData")
 q()
