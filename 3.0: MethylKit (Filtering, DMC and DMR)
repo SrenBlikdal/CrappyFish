@@ -46,10 +46,10 @@ print(dim(meth.filtered_10X))
 myDiff_5X<-calculateDiffMeth(meth.filtered_5X, mc.cores=40)
 myDiff_10X<-calculateDiffMeth(meth.filtered_10X, mc.cores=40)
 
-mydmr_5X=edmr(myDiff, mode=1, ACF=TRUE)
+mydmr_5X=edmr(myDiff_5X, mode=1, ACF=TRUE)
 mysigdmr_5X=filter.dmr(mydmr, DMR.qvalue = 0.01, mean.meth.diff = 0, num.CpGs = 3, num.DMCs = 1)
 
-mydmr_10X=edmr(myDiff, mode=1, ACF=TRUE)
+mydmr_10X=edmr(myDiff_10X, mode=1, ACF=TRUE)
 mysigdmr_10X=filter.dmr(mydmr, DMR.qvalue = 0.01, mean.meth.diff = 0, num.CpGs = 3, num.DMCs = 1)
 
 #clean
