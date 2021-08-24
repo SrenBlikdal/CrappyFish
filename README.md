@@ -5,5 +5,10 @@ List of scripts:\
   - Download the data from Novogene's servers\
 2_FastQC_Trimming_Alignment_MethylationCalling_pbs_batch_job_thinnode.sh\
   -QC with FastQC, trimming with adapterremoval, alingnment/methylation calling with bismark\
-3_Read_to_methylkit_and_make_image.Rmd\
+
+3.0_MethylKit.R
+-Importing the methylation call files into MethylKit.
+-Filtering for 10X and 5X coverage in all samples
+-Finding significant deferentially methylated cytosines
+-Finding significant deferentially methylated regions
 
