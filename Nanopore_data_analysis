@@ -4,56 +4,74 @@ module load nanopolish/0.13.2
 module load samtools/1.9
 module load minimap2/2.6
 
-### first step is to download raw files to computerome
-scp -r /home/sren/Downloads/D1_testrun_210624 soblha@ssh.computerome.dk:/home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624
+cd /home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Aug_run
+mkdir D1 D4 D9 D15
+
+### Download files from ERDA e.g. 
+cd D1
+ERDA=https://sid.erda.dk/share_redirect/pfEQfEWxyN
+wget $ERDA/D1/D1_pass.tar.gz
+wget $ERDA/D1/D1_fast5.tar.gz
+
 ### 2nd is basecalling 
 guppy_basecaller --compress_fastq -i /home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624 -s /home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624
  --cpu_threads_per_caller 28 --num_callers 1 -c dna_r9.4.1_450bps_hac.cfg
 
-cd /home/projects/ku-cbd/data/HoloFish/CrappyFish_nanopore/Testrun_D1_210624/D1_testrun_210624
 ### unzip
-tar -xvf fast5.tar.gz
-tar -xvf pass.tar.gz 
-tar -xvf fail.tar.gz 
+tar -xvf D1_pass.tar.gz
+tar -xvf D1_fast5.tar.gz 
 
-cat pass/*.fastq > output.fastq
-cat fail/*.fastq > fail.output.fastq
-cat pass/*.fastq fail/*fastq > con.output.fastq 
+### concatanate reads to 1 file 
+cat pass/*.fastq > D1.fastq
+#cat fail/*.fastq > fail.output.fastq
+#cat pass/*.fastq fail/*fastq > con.output.fastq 
+
 ### Data preprocessing 
-nanopolish index -d fast5/ output.fastq
-nanopolish index -d fast5/ fail.output.fastq
-nanopolish index -d fast5/ con.output.fastq
+for i in D9 D15 
+do
+nanopolish index -d $i/fast5/ $i/$i.fastq
+done
+
 ### Alignment 
 #pass reads
-minimap2 -a -t 40 -x map-ont /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa output.fastq | samtools sort -@ 39 -T tmp -o output.sorted.bam
-samtools index output.sorted.bam
+Reference=/home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa
+for i in D1 D4 D9 D15 
+do
+minimap2 -a -t 40 -x map-ont $Reference $i/$i.fastq | samtools sort -@ 39 -T tmp -o $i/$i.sorted.bam
+samtools index $i/$i.sorted.bam
+done
+
 #con reads 
 minimap2 -a -t 40 -x map-ont /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa con.output.fastq | samtools sort -@ 39 -T tmp -o con.output.sorted.bam
 samtools index con.output.sorted.bam
 #fail reads 
 minimap2 -a -t 40 -x map-ont /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa fail.output.fastq | samtools sort -@ 39 -T tmp -o fail.output.sorted.bam
 samtools index fail.output.sorted.bam
+
 ### Call methylation
+for i in D1 D4
+do 
 ##ROI1
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027312.1:39,651,908-39,661,992" > methylation_calls_ROI1.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:39,651,908-39,661,992" > $i/methylation_calls_ROI1.tsv
 ##ROI2
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027311.1:58,018,149-58,046,648" > methylation_calls_ROI2.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027311.1:58,018,149-58,046,648" > $i/methylation_calls_ROI2.tsv
 ##ROI3
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027302.1:36,334,000-36,348,000" > methylation_calls_ROI3.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:36,334,000-36,348,000" > $i/methylation_calls_ROI3.tsv
 ##ROI4
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027305.1:35,740,000-35,755,000" > methylation_calls_ROI4.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027305.1:35,740,000-35,755,000" > $i/methylation_calls_ROI4.tsv
 ##ROI5
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027312.1:17,752,168-17,765,967" > methylation_calls_ROI5.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:17,752,168-17,765,967" > $i/methylation_calls_ROI5.tsv
 ##ROI6
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027313.1:61,012,000-61,030,000" > methylation_calls_ROI6.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027313.1:61,012,000-61,030,000" > $i/methylation_calls_ROI6.tsv
 ##ROI7
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027318.1:25,840,000-25,860,000" > methylation_calls_ROI7.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027318.1:25,840,000-25,860,000" > $i/methylation_calls_ROI7.tsv
 ##ROI8
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027302.1:50,232,000-50,245,000" > methylation_calls_ROI8.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:50,232,000-50,245,000" > $i/methylation_calls_ROI8.tsv
 ##ROI9
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027303.1:15,205,000-15,225,000" > methylation_calls_ROI9.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027303.1:15,205,000-15,225,000" > $i/methylation_calls_ROI9.tsv
 ##ROI10
-nanopolish call-methylation -t 40 -r output.fastq -b output.sorted.bam -g /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa -w "NC_027310.1:26,100,000-26,115,000" > methylation_calls_ROI10.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027310.1:26,100,000-26,115,000" > $i/methylation_calls_ROI10.tsv
+done
 
 for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
 do 
