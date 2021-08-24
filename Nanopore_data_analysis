@@ -27,7 +27,7 @@ cat pass/*.fastq > D1.fastq
 #cat pass/*.fastq fail/*fastq > con.output.fastq 
 
 ### Data preprocessing 
-for i in D9 D15 
+for i in D1 D4 D9 D15 
 do
 nanopolish index -d $i/fast5/ $i/$i.fastq
 done
@@ -41,15 +41,8 @@ minimap2 -a -t 40 -x map-ont $Reference $i/$i.fastq | samtools sort -@ 39 -T tmp
 samtools index $i/$i.sorted.bam
 done
 
-#con reads 
-minimap2 -a -t 40 -x map-ont /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa con.output.fastq | samtools sort -@ 39 -T tmp -o con.output.sorted.bam
-samtools index con.output.sorted.bam
-#fail reads 
-minimap2 -a -t 40 -x map-ont /home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa fail.output.fastq | samtools sort -@ 39 -T tmp -o fail.output.sorted.bam
-samtools index fail.output.sorted.bam
-
 ### Call methylation
-for i in D1 D4
+for i in D1 D4 D9 D15
 do 
 ##ROI1
 nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:39,651,908-39,661,992" > $i/methylation_calls_ROI1.tsv
