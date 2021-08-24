@@ -12,3 +12,7 @@ List of scripts:\
 -Finding significant deferentially methylated cytosines\
 -Finding significant deferentially methylated regions\
 
+3.1_PCA.R\
+-Make PCA of 5X and 10X coverage\
+-Plot using ggplot 
+
