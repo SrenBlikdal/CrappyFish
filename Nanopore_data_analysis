@@ -45,25 +45,25 @@ done
 for i in D1 D4 D9 D15
 do 
 ##ROI1
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:39,651,908-39,661,992" > $i/methylation_calls_ROI1.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:39,651,935-39,661,977" > $i/methylation_calls_ROI1.tsv
 ##ROI2
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027311.1:58,018,149-58,046,648" > $i/methylation_calls_ROI2.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027311.1:58,028,040-58,038,276" > $i/methylation_calls_ROI2.tsv
 ##ROI3
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:36,334,000-36,348,000" > $i/methylation_calls_ROI3.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:36,337,465-36,346,562" > $i/methylation_calls_ROI3.tsv
 ##ROI4
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027305.1:35,740,000-35,755,000" > $i/methylation_calls_ROI4.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027305.1:35,743,727-35,753,253" > $i/methylation_calls_ROI4.tsv
 ##ROI5
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:17,752,168-17,765,967" > $i/methylation_calls_ROI5.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:17,753,985-17,764,258" > $i/methylation_calls_ROI5.tsv
 ##ROI6
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027313.1:61,012,000-61,030,000" > $i/methylation_calls_ROI6.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027313.1:61,014,780-61,028,987" > $i/methylation_calls_ROI6.tsv
 ##ROI7
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027318.1:25,840,000-25,860,000" > $i/methylation_calls_ROI7.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027318.1:25,841,898-25,856,562" > $i/methylation_calls_ROI7.tsv
 ##ROI8
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:50,232,000-50,245,000" > $i/methylation_calls_ROI8.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:50,233,895-50,243,301" > $i/methylation_calls_ROI8.tsv
 ##ROI9
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027303.1:15,205,000-15,225,000" > $i/methylation_calls_ROI9.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027303.1:15,211,634-15,222,313" > $i/methylation_calls_ROI9.tsv
 ##ROI10
-nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027310.1:26,100,000-26,115,000" > $i/methylation_calls_ROI10.tsv
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027310.1:26,101,625-26,112,398" > $i/methylation_calls_ROI10.tsv
 done
 
 for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
