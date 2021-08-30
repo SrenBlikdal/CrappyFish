@@ -1,0 +1,105 @@
+library(methylKit)
+library(tidyverse)
+#ROI1
+ROI1_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027312.1" & start >=39651935 & start <=39661977)
+
+ROI1_mc<-methylKit::select(meth.filtered,min(ROI1_cov$rowid):max(ROI1_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI1_cov$chr,start=ROI1_cov$start,.)
+
+ROI1_TSS=
+
+#ROI2
+ROI2_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027311.1" & start >=58028040 & start <=58038276)
+
+ROI2_mc<-methylKit::select(meth.filtered,min(ROI2_cov$rowid):max(ROI2_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI2_cov$chr,start=ROI2_cov$start,.)
+
+#ROI3
+ROI3_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027302.1" & start >=36337465 & start <=36346562)
+
+ROI3_mc<-methylKit::select(meth.filtered,min(ROI3_cov$rowid):max(ROI3_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI3_cov$chr,start=ROI3_cov$start,.)
+
+#ROI4
+ROI4_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027305.1" & start >=35743727 & start <=35753253)
+
+ROI4_mc<-methylKit::select(meth.filtered,min(ROI4_cov$rowid):max(ROI4_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI4_cov$chr,start=ROI4_cov$start,.)
+  
+#ROI5
+ROI5_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027312.1" & start >=17753985 & start <=17764258)
+
+ROI5_mc<-methylKit::select(meth.filtered,min(ROI5_cov$rowid):max(ROI5_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI5_cov$chr,start=ROI5_cov$start,.)
+
+#ROI6
+ROI6_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027313.1" & start >=61014780 & start <=61028987)
+
+ROI6_mc<-methylKit::select(meth.filtered,min(ROI6_cov$rowid):max(ROI6_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI6_cov$chr,start=ROI6_cov$start,.)
+ 
+#ROI7
+ROI7_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027318.1" & start >=25841898 & start <=25856562)
+
+ROI7_mc<-methylKit::select(meth.filtered,min(ROI7_cov$rowid):max(ROI7_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI7_cov$chr,start=ROI7_cov$start,.)
+
+#ROI8
+ROI8_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027302.1" & start >=50233895 & start <=50243301)
+
+ROI8_mc<-methylKit::select(meth.filtered,min(ROI8_cov$rowid):max(ROI8_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI8_cov$chr,start=ROI8_cov$start,.)
+
+#ROI9
+ROI9_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027303.1" & start >=15211634 & start <=15222313)
+
+ROI9_mc<-methylKit::select(meth.filtered,min(ROI9_cov$rowid):max(ROI9_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI9_cov$chr,start=ROI9_cov$start,.)
+ 
+ #ROI10
+ ROI10_cov<-as_tibble(meth.filtered) %>%
+  rowid_to_column(.) %>%
+  filter(chr=="NC_027310.1" & start >=26101625 & start <=26112398)
+
+ROI10_mc<-methylKit::select(meth.filtered,min(ROI10_cov$rowid):max(ROI10_cov$rowid)) %>%
+  percMethylation(.) %>% 
+  as_tibble(.) %>%
+  bind_cols(chr=ROI10_cov$chr,start=ROI10_cov$start,.)
+  
+save.image()
