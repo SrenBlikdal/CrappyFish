@@ -56,6 +56,7 @@ mysigdmr_10X=filter.dmr(mydmr, DMR.qvalue = 0.01, mean.meth.diff = 0, num.CpGs =
 
 #clean
 rm(my_obj)
+rm(filtered.my_obj_1X)
 rm(filtered.my_obj_5X)
 rm(filtered.my_obj_10X)
 
