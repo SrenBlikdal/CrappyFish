@@ -70,6 +70,10 @@ for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
 do 
 calculate_methylation_frequency.py methylation_calls_$ROI.tsv > methylation_frequency_$ROI.tsv
 done 
+#seperate into + and - strand
+awk -F"\t" '$2 == "+" { print $0 }' methylation_calls_ROI1.tsv > methylation_calls_ROI1+.tsv
+awk -F"\t" '$2 == "-" { print $0 }' methylation_calls_ROI1.tsv > methylation_calls_ROI1+.tsv
+###find how to change header 
 
 #failed reads 
 ##ROI1
