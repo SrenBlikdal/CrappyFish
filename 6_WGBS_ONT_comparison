@@ -1,0 +1,101 @@
+library(methylKit)
+library(tidyverse)
+D1_ROI1_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI1.tsv")
+D1_ROI2_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI2.tsv")
+D1_ROI3_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI3.tsv")
+D1_ROI4_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI4.tsv")
+D1_ROI5_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI5.tsv")
+D1_ROI6_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI6.tsv")
+D1_ROI7_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI7.tsv")
+D1_ROI8_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI8.tsv")
+D1_ROI9_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI9.tsv")
+D1_ROI10_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D1/methylation_frequency_ROI10.tsv")
+
+D4_ROI1_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI1.tsv")
+D4_ROI2_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI2.tsv")
+D4_ROI3_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI3.tsv")
+D4_ROI4_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI4.tsv")
+D4_ROI5_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI5.tsv")
+D4_ROI6_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI6.tsv")
+D4_ROI7_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI7.tsv")
+D4_ROI8_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI8.tsv")
+D4_ROI9_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI9.tsv")
+D4_ROI10_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D4/methylation_frequency_ROI10.tsv")
+
+D9_ROI1_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI1.tsv")
+D9_ROI2_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI2.tsv")
+D9_ROI3_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI3.tsv")
+D9_ROI4_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI4.tsv")
+D9_ROI5_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI5.tsv")
+D9_ROI6_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI6.tsv")
+D9_ROI7_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI7.tsv")
+D9_ROI8_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI8.tsv")
+D9_ROI9_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI9.tsv")
+D9_ROI10_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D9/methylation_frequency_ROI10.tsv")
+
+D15_ROI1_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI1.tsv")
+D15_ROI2_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI2.tsv")
+D15_ROI3_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI3.tsv")
+D15_ROI4_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI4.tsv")
+D15_ROI5_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI5.tsv")
+D15_ROI6_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI6.tsv")
+D15_ROI7_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI7.tsv")
+D15_ROI8_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI8.tsv")
+D15_ROI9_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI9.tsv")
+D15_ROI10_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/Nanopore/D15/methylation_frequency_ROI10.tsv")
+
+load("~/Documents/Master_thesis/Crappyfish/ROIs/ROI1/ROI1.RData")
+
+sample_ROI_type=D9_ROI1_ONT
+FT=5
+
+#Coverage
+ONT_cov<-as_tibble(sample_ROI_type) %>%
+  filter(., num_motifs_in_group==1 & called_sites >=FT) %>%
+  select(start, called_sites) %>%
+  mutate(pos=-(start)) %>%
+  mutate(type ="ONT") %>%
+  rename(cov = called_sites)
+print(nrow(ONT_cov))
+
+sample_ROI=ROI_mf
+WGBS_cov<-as_tibble(sample_ROI_type) %>% 
+  select(start, coverage1) %>% 
+  bind_cols(.,pos=-(ROI_mf$start)) %>%
+  mutate(type ="WGBS") %>%
+  #filter(start>35743744, start<35753165)%>%
+  rename(cov =coverage1)
+
+bind_rows(WGBS_cov,ONT_cov) %>%
+  ggplot(.,aes(x=pos,y=cov, group= type, color= type))+
+  geom_point(aes(color=type))+
+  geom_smooth(se=F)+
+  ggtitle("Coverage comparison for ROI4 in D1")+
+  ylab("Coverage per CpG site")+
+  xlab("Position from TSS")+
+  labs(color="Sequencing platform")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+#Methylation calls
+WGBS_percM<-percMethylation(ROI_mf) %>% 
+  as_tibble() %>% 
+  select(D1) %>% 
+  bind_cols(.,pos=-(ROI_mf$start)) %>%
+  mutate(type ="WGBS") %>%
+  rename(percM=D1)
+
+
+ONT_percM<- as_tibble(D1_ROI1_ONT) %>% 
+  filter(., num_motifs_in_group==1) %>%
+  filter(., called_sites>=3) %>%
+  transmute(percM=methylated_frequency*100, pos=-(start), type="ONT")
+
+bind_rows(WGBS_percM, ONT_percM) %>%
+  ggplot(.,aes(x=pos,y=percM, group= type, color= type))+
+  geom_point(aes(color=type))+
+  geom_smooth(se=F)+
+  ggtitle("Methylation calling comparison for ROI4 in D1")+
+  ylab("Percent methylation")+
+  xlab("Position from TSS")+
+  labs(color="Sequencing platform")+
+  theme(plot.title = element_text(hjust = 0.5))
