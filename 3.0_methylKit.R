@@ -60,5 +60,8 @@ rm(filtered.my_obj_1X)
 rm(filtered.my_obj_5X)
 rm(filtered.my_obj_10X)
 
-save.image(file ="MethylKit_19samples_210824.RData")
+save.image(file ="/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_1X_210901.RData")
+rm(meth.filtered_1X)
+save.image(file ="/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_210901.RData")
 q()
+n
