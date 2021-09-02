@@ -1,1 +1,30 @@
+### CpG sites sequenced >= 1 time
+for sample in D1 D4 D9 D15 
+do 
+for ROI in {1..10} 
+do 
+echo sample: $sample ROI: $ROI
+awk '{print $0,$5/$4}' $sample/methylation_frequency_ROI$ROI.tsv | awk ' $9 >=1 {print}' | awk '{s+=$4}END{print s}' 
+done 
+done 
 
+### CpG sites sequenced >= 5 times
+for sample in D1 D4 D9 D15 
+do 
+for ROI in {1..10} 
+do 
+echo sample: $sample ROI: $ROI
+awk '{print $0,$5/$4}' $sample/methylation_frequency_ROI$ROI.tsv | awk ' $9 >=5 {print}' | awk '{s+=$4}END{print s}' 
+done 
+done 
+
+### CpG sites sequenced >= 10 times
+for sample in D1 D4 D9 D15 
+do 
+echo sample $sample
+for ROI in {1..10} 
+do 
+#echo sample: $sample ROI: $ROI
+awk '{print $0,$5/$4}' $sample/methylation_frequency_ROI$ROI.tsv | awk ' $9 >=10 {print}' | awk '{s+=$4}END{print s}' 
+done 
+done 
