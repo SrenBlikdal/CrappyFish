@@ -66,13 +66,38 @@ nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Referen
 nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027310.1:26,101,625-26,112,398" > $i/methylation_calls_ROI10.tsv
 done
 
+## The coordinates of ONT and WGBS are not alligned, therefore the coordinates from the +strand needs to be +1 and the coordinates from the - strand +2
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+awk -F"\t" '$2 == "strand" || $2 == "+" { print $0 }' methylation_calls_$ROI.tsv > methylation_calls_plus_$ROI.tsv
+done 
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+calculate_methylation_frequency.py methylation_calls_plus_$ROI.tsv > methylation_frequency_plus_$ROI.tsv
+done 
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+awk -F"\t" '$2 == "strand" || $2 == "-" { print $0 }' methylation_calls_$ROI.tsv > methylation_calls_minus_$ROI.tsv
+done 
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+calculate_methylation_frequency.py methylation_calls_minus_$ROI.tsv > methylation_frequency_minus_$ROI.tsv
+done 
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+calculate_methylation_frequency.py methylation_calls_plus_$ROI.tsv > methylation_frequency_plus_$ROI.tsv
+done 
+
 for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
 do 
 calculate_methylation_frequency.py methylation_calls_$ROI.tsv > methylation_frequency_$ROI.tsv
 done 
 #seperate into + and - strand
-awk -F"\t" '$2 == "+" { print $0 }' methylation_calls_ROI1.tsv > methylation_calls_ROI1+.tsv
-awk -F"\t" '$2 == "-" { print $0 }' methylation_calls_ROI1.tsv > methylation_calls_ROI1+.tsv
+awk -F"\t" '$2 == "strand" || $2 == "+" { print $0 }' methylation_calls_ROI1.tsv > methylation_calls_ROI1_plus.tsv
 ###find how to change header 
 
 #failed reads 
