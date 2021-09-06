@@ -1,10 +1,10 @@
 ### CD to directory with methylkit output images
-CD 
+setwd(
 ### Make design matrix
 sample.id <- c("D1","D2","D3","D4","D5","D6","D8","D9","D10", "D11","D12","D13","D14","D15","D16","D17","D18","D19","D20")
-treatment_n= c(1,1,1,0,1,0,1,1,0,1,0,1,0,0,1,0,0,1,0)
-treatment<-gsub(1,"sick",treatment_n) %>% gsub("0","healthy",.)
-design.matrix<-bind_cols(ID=sample.id, treatment=treatment)
+treatment_n <- c(1,1,1,0,1,0,1,1,0,1,0,1,0,0,1,0,0,1,0)
+treatment <- gsub(1,"sick",treatment_n) %>% gsub("0","healthy",.)
+design.matrix <- bind_cols(ID=sample.id, treatment=treatment)
 
 ### Make PCA 
 pca_5X <- percMethylation(meth.filtered_5X) %>% t(.) %>% prcomp(.,center=T, scale. = F)
