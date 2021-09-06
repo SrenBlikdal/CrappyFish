@@ -6,6 +6,7 @@ library(memoise)
 library(sessioninfo)
 library(devtools)
 library(methylKit)
+library(edmr)
 
 setwd("/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/5.1_bismark")
 
