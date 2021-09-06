@@ -38,7 +38,7 @@ filtered.my_obj_1X=filterByCoverage(my_obj,lo.count=1,lo.perc=NULL, hi.count=NUL
 filtered.my_obj_5X=filterByCoverage(my_obj,lo.count=5,lo.perc=NULL, hi.count=NULL,hi.perc=99.9)
 filtered.my_obj_10X=filterByCoverage(my_obj,lo.count=10,lo.perc=NULL, hi.count=NULL,hi.perc=99.9)
 
-meth.filtered_1X<-unite(filtered.my_obj_5X, destrand=F)
+meth.filtered_1X<-unite(filtered.my_obj_1X, destrand=F)
 meth.filtered_5X<-unite(filtered.my_obj_5X, destrand=F)
 meth.filtered_10X<-unite(filtered.my_obj_10X, destrand=F)
 
