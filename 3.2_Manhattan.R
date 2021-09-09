@@ -2,18 +2,18 @@ library(methylKit)
 library(tidyverse)
 library(qqman)
 
-methylkitworkspace<-("/home/sren/Documents/Master_thesis/Crappyfish/methylkit_19samples_5X_210416.RData")
-methylkitworkspace<-("/home/sren/Documents/Master_thesis/Crappyfish/methylkit_19samples_10X_MN_210129.RData")
+#methylkitworkspace<-("/home/sren/Documents/Master_thesis/Crappyfish/methylkit_19samples_5X_210416.RData")
+#methylkitworkspace<-("/home/sren/Documents/Master_thesis/Crappyfish/methylkit_19samples_10X_MN_210129.RData")
 load(methylkitworkspace)
 rm(myDiff_MN)
 rm(meth.filtered)
 #grep the chromosomes, to do, assign contigs to chr
-myDiff_t<-as_tibble(myDiff)
-rm(myDiff_MN)
-rm(meth.filtered)
+myDiff_t<-as_tibble(myDiff_10X)
+#rm(myDiff_MN)
+#rm(meth.filtered)
 #Find pvalue threshold for qvalue>0.01
-notsig<-myDiff_t %>% subset(qvalue>=0.01)
-myDiff_t<-myDiff_t %>% subset(qvalue<=0.01)
+#notsig<-myDiff_t %>% subset(qvalue>=0.01)
+#myDiff_t<-myDiff_t %>% subset(qvalue<=0.01)
 
 threshold_for_sig<--log10(min(notsig$pvalue))
 
