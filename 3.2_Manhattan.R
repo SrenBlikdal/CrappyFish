@@ -36,7 +36,7 @@ SMP <- myDiff_t %>%
 
 
 axisdf = SMP %>% group_by(chr) %>% summarize(center=(max(BPcum) + min(BPcum) ) / 2 )
-png(file="/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/SNP_5X.png")
+png(file="/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/SNP_5X.png", width = 1000, height = 480)
 ggplot(SMP, aes(x=BPcum, y=(SMvalue))) +
   
   # Show all points
@@ -51,7 +51,7 @@ ggplot(SMP, aes(x=BPcum, y=(SMvalue))) +
   geom_hline(yintercept=-threshold_for_sig, linetype="dashed", color = "red")+
   xlab("Position in genome") +
   ylab("-log10(p-value)") +
-  ylim(-40,40)+
+  ylim(-30,30)+
   ggtitle("Sunset Manhattan Plot \n 5X threshold ")+
 
   # Custom the theme:
