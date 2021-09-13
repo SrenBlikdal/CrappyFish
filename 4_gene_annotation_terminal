@@ -31,12 +31,12 @@ bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_gene.bed -g GCF_000233375.1_
 bedtools sort -i GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed | bedtools merge -i stdin > GCF_000233375.1_ICSASG_v2_genomic_250promoter_merged.bed
 
 #Make file with 1K promoters 
-bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_gene.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 1000 -r 251 -s | awk -F"\t" '$2<$3 {print $0}' | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed > GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.bed
+bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 750 -r 0 -s | awk -F"\t" '$2<$3 {print $0}' | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed > GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.bed
 bedtools sort -i GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.bed | bedtools merge -i stdin > GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter_merged.bed
 
 
 #Make file with 6K promoters
-bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_gene.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 6000 -r 1001 -s | awk -F"\t" '$2<$3 {print $0}' | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed |  bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.bed  > GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.bed
+bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 5000 -r  -s | awk -F"\t" '$2<$3 {print $0}' | bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed |  bedtools subtract -a stdin -b GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.bed  > GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.bed
 bedtools sort -i GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.bed | bedtools merge -i stdin > GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter_merged.bed
 
 
@@ -63,5 +63,8 @@ for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1
 do bedtools intersect -a DMC_5X.BED -b $feature | wc -l ; done
 
 for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.gff GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.gff  GCF_000233375.1_ICSASG_v2_genomic_6Kpromoter.gff GCF_000233375.1_ICSASG_v2_genomic_exon_merged.gff GCF_000233375.1_ICSASG_v2_genomic_intron.BED GCF_000233375.1_ICSASG_v2_genomic_intergenic.BED;
+do bedtools intersect -a mysigdmr_5X.BED -b $feature | wc -l ; done
+
+for feature in GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed GCF_000233375.1_ICSASG_v2_genomic_1Kpromoter.bed;
 do bedtools intersect -a mysigdmr_5X.BED -b $feature | wc -l ; done
 
