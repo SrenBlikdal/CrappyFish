@@ -96,7 +96,7 @@ SMP <- myDiff_t %>%
 
 
 axisdf = SMP %>% group_by(chr) %>% summarize(center=(max(BPcum) + min(BPcum) ) / 2 )
-png(file="/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/SMP_10X.png")
+png(file="/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/SMP_10X.png", width = 1000, height = 480)
 ggplot(SMP, aes(x=BPcum, y=(SMvalue))) +
   
   # Show all points
