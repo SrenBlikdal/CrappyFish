@@ -15,3 +15,8 @@ write.table(DMCs_5X_t, file = "/home/projects/ku-cbd/data/HoloFish/morten_fish/E
 DMRs_5X_t <- as_tibble(mysigdmr_5X)
 write.table(DMRs_5X_t, file = "/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/5X_DMRs.tsv", row.names=FALSE, sep="\t")
 
+### Convert to bedfiles in terminal 
+sed 's/"//g' 5X_cov_CpGs.tsv | awk -v OFS='\t' '{print $1, $2, $3}' > 5X_cov_CpGs.bed
+sed 's/"//g' 5X_DMCs.tsv | awk -v OFS='\t' '{print $1, $2, $3}' > 5X_DMCs.bed
+sed 's/"//g' 5X_DMRs.tsv | awk -v OFS='\t' '{print $1, $2, $3}' > 5X_DMRs.bed
+##Remove header with nano 
