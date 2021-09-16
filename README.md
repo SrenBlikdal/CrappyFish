@@ -14,12 +14,15 @@ Output files:
   -Filtering for 10X and 5X coverage in all samples\
   -Finding significant deferentially methylated cytosines\
   -Finding significant deferentially methylated regions\
-Output files:MethylKit_19samples_10X_5X_1X_210901.RData and MethylKit_19samples_10X_5X_210901.RData
+Output files: MethylKit_19samples_10X_5X_1X_210901.RData and MethylKit_19samples_10X_5X_210901.RData
 
 3.1_PCA.R\
   -Make PCA of 5X and 10X coverage\
-  -Plot using ggplot 
+  -Plot using ggplot\
+Output files:
+  
 
-3.2_Manhattan.R
+3.2_Manhattan.R\
   -Make Sunset Manhattan plots and QQ-plots of 5X and 10X coverage\
+  
 
