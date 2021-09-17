@@ -79,15 +79,16 @@ done
 
 for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
 do 
-calculate_methylation_frequency.py methylation_calls_minus_$ROI.tsv > methylation_frequency_minus_$ROI.tsv
+calculate_methylation_frequency.py methylation_calls_plus_$ROI.tsv | awk -F"\t" '{ print $0"\t"$2+1}' > methylation_frequency_plus_$ROI.tsv
 done 
 
 for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
 do 
-calculate_methylation_frequency.py methylation_calls_plus_$ROI.tsv > methylation_frequency_plus_$ROI.tsv
+calculate_methylation_frequency.py methylation_calls_minus_$ROI.tsv | awk -F"\t" '{ print $0"\t"$2+2}' > methylation_frequency_minus_$ROI.tsv
 done 
 
-cat methylation_frequency_minus_ROI*.tsv > D1_methylation_frequency_minus_ROIS.tsv
+cat methylation_frequency_* | awk -F"\t" ' $4 == "1" { print $0 }' > D1_methylation_frequency.tsv
+
 cat methylation_frequency_plus_ROI*.tsv > D1_methylation_frequency_plus_ROIS.tsv
 
 
