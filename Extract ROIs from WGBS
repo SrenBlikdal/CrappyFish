@@ -164,7 +164,7 @@ ROI6_cov_1X<-as_tibble(meth.filtered_1X) %>%
   rowid_to_column(.) %>%
   filter(chr=="NC_027313.1" & start >=61014780 & start <=61028987)
 
-ROI6_mc<-methylKit::select(meth.filtered_1X,min(ROI6_cov_1X$rowid):max(ROI6_cov_1X$rowid)) %>%
+ROI6_mc_1X<-methylKit::select(meth.filtered_1X,min(ROI6_cov_1X$rowid):max(ROI6_cov_1X$rowid)) %>%
   percMethylation(.) %>% 
   as_tibble(.) %>%
   bind_cols(chr=ROI6_cov_1X$chr,start=ROI6_cov_1X$start,.)
@@ -174,7 +174,7 @@ ROI6_cov_5X<-as_tibble(meth.filtered_5X) %>%
   rowid_to_column(.) %>%
   filter(chr=="NC_027313.1" & start >=61014780 & start <=61028987)
 
-ROI6_mc<-methylKit::select(meth.filtered_5X,min(ROI6_cov_5X$rowid):max(ROI6_cov_5X$rowid)) %>%
+ROI6_mc_5X<-methylKit::select(meth.filtered_5X,min(ROI6_cov_5X$rowid):max(ROI6_cov_5X$rowid)) %>%
   percMethylation(.) %>% 
   as_tibble(.) %>%
   bind_cols(chr=ROI6_cov_5X$chr,start=ROI6_cov_5X$start,.)
@@ -184,7 +184,7 @@ ROI6_cov_10X<-as_tibble(meth.filtered_10X) %>%
   rowid_to_column(.) %>%
   filter(chr=="NC_027313.1" & start >=61014780 & start <=61028987)
 
-ROI6_mc<-methylKit::select(meth.filtered_10X,min(ROI6_cov_10X$rowid):max(ROI6_cov_10X$rowid)) %>%
+ROI6_mc_10X<-methylKit::select(meth.filtered_10X,min(ROI6_cov_10X$rowid):max(ROI6_cov_10X$rowid)) %>%
   percMethylation(.) %>% 
   as_tibble(.) %>%
   bind_cols(chr=ROI6_cov_10X$chr,start=ROI6_cov_10X$start,.)
