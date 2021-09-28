@@ -1,3 +1,5 @@
+library("tidyverse")
+
 ### CD to directory with methylkit output images
 load("/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_210901.RData")
 ### Make design matrix
