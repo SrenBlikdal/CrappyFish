@@ -1,0 +1,219 @@
+library(tidyverse)
+library(RColorBrewer)
+load("~/Documents/Master_thesis/Crappyfish/ROIs_WGBS.RData")
+colnames<-c("chr","start_not_adj","end", "num_motifs_in_group",	"called_sites",	"called_sites_methylated",	"methylated_frequency",	"group_sequence","start")
+D1_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/D1_methylation_frequency.tsv", col_names =colnames)
+D9_ONT<-read_tsv("~/Documents/Master_thesis/Crappyfish/D9_methylation_frequency.tsv", col_names =colnames)
+
+## D1 1X 
+D1_1X_1 <- ROI1_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_2 <- ROI2_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_3 <- ROI3_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_4 <- ROI4_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_5 <- ROI5_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_6 <- ROI6_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_7 <- ROI7_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_8 <- ROI8_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_9 <- ROI9_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+D1_1X_10 <- ROI10_mc_1X %>% dplyr::select(chr,start,D1) %>% mutate(type="WGBS") %>% rename(PercM=D1)
+
+D1_WGBS_1X<-bind_rows(D1_1X_1,D1_1X_2,D1_1X_3,D1_1X_4,D1_1X_5,D1_1X_6,D1_1X_7,D1_1X_8,D1_1X_9,D1_1X_10)
+
+## D1 5X 
+D1_5X_1 <- bind_cols(D1_1X_1,cov=ROI1_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_2 <- bind_cols(D1_1X_2,cov=ROI2_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_3 <- bind_cols(D1_1X_3,cov=ROI3_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_4 <- bind_cols(D1_1X_4,cov=ROI4_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_5 <- bind_cols(D1_1X_5,cov=ROI5_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_6 <- bind_cols(D1_1X_6,cov=ROI6_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_7 <- bind_cols(D1_1X_7,cov=ROI7_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_8 <- bind_cols(D1_1X_8,cov=ROI8_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_9 <- bind_cols(D1_1X_9,cov=ROI9_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+D1_5X_10 <- bind_cols(D1_1X_10,cov=ROI10_cov_1X$coverage1) %>% filter(.,cov>=5) %>% select(-cov)
+
+D1_WGBS_5X<-bind_rows(D1_5X_1,D1_5X_2,D1_5X_3,D1_5X_4, D1_5X_5,D1_5X_6,D1_5X_7,D1_5X_8,D1_5X_9,D1_5X_10)
+
+## D1 10X 
+D1_10X_1 <- bind_cols(D1_1X_1,cov=ROI1_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_2 <- bind_cols(D1_1X_2,cov=ROI2_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_3 <- bind_cols(D1_1X_3,cov=ROI3_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_4 <- bind_cols(D1_1X_4,cov=ROI4_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_5 <- bind_cols(D1_1X_5,cov=ROI5_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_6 <- bind_cols(D1_1X_6,cov=ROI6_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_7 <- bind_cols(D1_1X_7,cov=ROI7_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_8 <- bind_cols(D1_1X_8,cov=ROI8_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_9 <- bind_cols(D1_1X_9,cov=ROI9_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+D1_10X_10 <- bind_cols(D1_1X_10,cov=ROI10_cov_1X$coverage1) %>% filter(.,cov>=10) %>% select(-cov)
+
+D1_WGBS_10X<-bind_rows(D1_10X_1,D1_10X_2,D1_10X_3,D1_10X_4,D1_10X_5,D1_10X_6,D1_10X_7,D1_10X_8, D1_10X_9,D1_10X_10)
+
+## D9 1X 
+D9_1X_1 <- ROI1_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_2 <- ROI2_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_3 <- ROI3_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_4 <- ROI4_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_5 <- ROI5_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_6 <- ROI6_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_7 <- ROI7_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_8 <- ROI8_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_9 <- ROI9_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+D9_1X_10 <- ROI10_mc_1X %>% dplyr::select(chr,start,D9) %>% mutate(type="WGBS") %>% rename(PercM=D9)
+
+D9_WGBS_1X<-bind_rows(D9_1X_1,D9_1X_2,D9_1X_3,D9_1X_4,D9_1X_5,D9_1X_6,D9_1X_7,D9_1X_8,D9_1X_9,D9_1X_10)
+
+## D9 5X 
+D9_5X_1 <- bind_cols(D9_1X_1,cov=ROI1_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_2 <- bind_cols(D9_1X_2,cov=ROI2_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_3 <- bind_cols(D9_1X_3,cov=ROI3_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_4 <- bind_cols(D9_1X_4,cov=ROI4_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_5 <- bind_cols(D9_1X_5,cov=ROI5_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_6 <- bind_cols(D9_1X_6,cov=ROI6_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_7 <- bind_cols(D9_1X_7,cov=ROI7_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_8 <- bind_cols(D9_1X_8,cov=ROI8_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_9 <- bind_cols(D9_1X_9,cov=ROI9_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+D9_5X_10 <- bind_cols(D9_1X_10,cov=ROI10_cov_1X$coverage9) %>% filter(.,cov>=5) %>% select(-cov)
+
+D9_WGBS_5X<-bind_rows(D9_5X_1,D9_5X_2,D9_5X_3,D9_5X_4, D9_5X_5,D9_5X_6,D9_5X_7,D9_5X_8,D9_5X_9,D9_5X_10)
+
+## D9 10X 
+D9_10X_1 <- bind_cols(D9_1X_1,cov=ROI1_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_2 <- bind_cols(D9_1X_2,cov=ROI2_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_3 <- bind_cols(D9_1X_3,cov=ROI3_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_4 <- bind_cols(D9_1X_4,cov=ROI4_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_5 <- bind_cols(D9_1X_5,cov=ROI5_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_6 <- bind_cols(D9_1X_6,cov=ROI6_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_7 <- bind_cols(D9_1X_7,cov=ROI7_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_8 <- bind_cols(D9_1X_8,cov=ROI8_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_9 <- bind_cols(D9_1X_9,cov=ROI9_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+D9_10X_10 <- bind_cols(D9_1X_10,cov=ROI10_cov_1X$coverage9) %>% filter(.,cov>=10) %>% select(-cov)
+
+D9_WGBS_10X<-bind_rows(D9_10X_1,D9_10X_2,D9_10X_3,D9_10X_4,D9_10X_5,D9_10X_6,D9_10X_7,D9_10X_8, D9_10X_9,D9_10X_10)
+
+
+##
+D1_ONT_1X<-D1_ONT %>% 
+  mutate(type="ONT",PercM=methylated_frequency*100) %>% 
+  dplyr::select(chr,start,PercM,type) 
+
+P_1_1<-bind_rows(D1_WGBS_1X,D1_ONT_1X) %>% group_by(start) %>% filter(n()>1)%>%arrange(.,start)
+FT=1
+PP_1_1<-spread(P_1_1,"type","PercM")
+C<-cor(PP_1_1$ONT, PP_1_1$WGBS)
+title <- sprintf("Number of sites = %d Pearson correlation = %.3f Precision threshold = %d", nrow(PP_1_1), C, FT)
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+
+ggplot(PP_1_1, aes(ONT, WGBS)) +
+  geom_bin2d(bins=20) + scale_fill_gradientn(colors=r , trans="log10") +
+  ylab("Bisulfite Methylation Frequency") +
+  xlab("Nanopolish Methylation Frequency") +
+  theme_bw(base_size=15)+
+  ggtitle("D1 WGBS and nCATS comparison",title)+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+D1_ONT_5X<-D1_ONT %>% filter(called_sites>=5) %>%
+  mutate(type="ONT",PercM=methylated_frequency*100) %>% 
+  dplyr::select(chr,start,PercM,type)
+
+P_1_5<-bind_rows(D1_WGBS_5X,D1_ONT_5X) %>% group_by(start) %>% filter(n()>1)%>%arrange(.,start)
+PP_1_5<-spread(P_1_5,"type","PercM")
+FT=5
+C<-cor(PP_1_5$ONT, PP_1_5$WGBS)
+title <- sprintf("Number of sites = %d Pearson correlation = %.3f Precision threshold = %d", nrow(PP_1_5), C, FT)
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+
+ggplot(PP_1_5, aes(ONT, WGBS)) +
+  geom_bin2d(bins=20) + scale_fill_gradientn(colors=r , trans="log10") +
+  ylab("Bisulfite Methylation Frequency") +
+  xlab("Nanopore Methylation Frequency") +
+  theme_bw(base_size=15)+
+  ggtitle("D1 WGBS and nCATS comparison",title)+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+D1_ONT_10X<-D1_ONT %>% filter(called_sites>=10) %>%
+  mutate(type="ONT",PercM=methylated_frequency*100) %>% 
+  dplyr::select(chr,start,PercM,type)
+
+P_1_10<-bind_rows(D1_WGBS_10X,D1_ONT_10X) %>% group_by(start) %>% filter(n()>1)%>%arrange(.,start)
+PP_1_10<-spread(P_1_10,"type","PercM")
+FT=10
+C<-cor(PP_1_10$ONT, PP_1_10$WGBS)
+title <- sprintf("Number of sites = %d Pearson correlation = %.3f Precision threshold = %d", nrow(PP_1_10), C, FT)
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+
+ggplot(PP_1_10, aes(ONT, WGBS)) +
+  geom_bin2d(bins=20) + scale_fill_gradientn(colors=r , trans="log10") +
+  ylab("Bisulfite Methylation Frequency") +
+  xlab("Nanopore Methylation Frequency") +
+  theme_bw(base_size=15)+
+  ggtitle("D1 WGBS and nCATS comparison",title)+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+D9_ONT_1X<-D9_ONT %>% 
+  mutate(type="ONT",PercM=methylated_frequency*100) %>% 
+  dplyr::select(chr,start,PercM,type) 
+
+P_9_1<-bind_rows(D9_WGBS_1X,D9_ONT_1X) %>% group_by(start) %>% filter(n()>1)%>%arrange(.,start)
+PP_9_1<-spread(P_9_1,"type","PercM")
+FT=1
+C<-cor(PP_9_1$ONT, PP_9_1$WGBS)
+title <- sprintf("Number of sites = %d Pearson correlation = %.3f Precision threshold = %d", nrow(PP_9_1), C, FT)
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+
+
+ggplot(PP_9_1, aes(ONT, WGBS)) +
+  geom_bin2d(bins=20) + scale_fill_gradientn(colors=r , trans="log10") +
+  ylab("Bisulfite Methylation Frequency") +
+  xlab("Nanopore Methylation Frequency") +
+  theme_bw(base_size=15)+
+  ggtitle("D9 WGBS and nCATS comparison",title)+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+D9_ONT_5X<-D9_ONT %>% filter(called_sites>=5) %>%
+  mutate(type="ONT",PercM=methylated_frequency*100) %>% 
+  dplyr::select(chr,start,PercM,type)
+
+P_9_5<-bind_rows(D9_WGBS_5X,D9_ONT_5X) %>% group_by(start) %>% filter(n()>1)%>%arrange(.,start)
+PP_9_5<-spread(P,"type","PercM")
+FT=5
+C<-cor(PP_9_5$ONT, PP_9_5$WGBS)
+title <- sprintf("Number of sites = %d Pearson correlation = %.3f Precision threshold = %d", nrow(PP_9_5), C, FT)
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+
+ggplot(PP_9_5, aes(ONT, WGBS)) +
+  geom_bin2d(bins=20) + scale_fill_gradientn(colors=r , trans="log10") +
+  ylab("Bisulfite Methylation Frequency") +
+  xlab("Nanopore Methylation Frequency") +
+  theme_bw(base_size=15)+
+  ggtitle("D9 WGBS and nCATS comparison",title)+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+D9_ONT_10X<-D9_ONT %>% filter(called_sites>=10) %>%
+  mutate(type="ONT",PercM=methylated_frequency*100) %>% 
+  dplyr::select(chr,start,PercM,type)
+
+P_9_10<-bind_rows(D9_WGBS_10X,D9_ONT_10X) %>% group_by(start) %>% filter(n()>1)%>%arrange(.,start)
+PP_9_10<-spread(P_9_10,"type","PercM")
+FT=10
+C<-cor(PP_9_10$ONT, PP_9_10$WGBS)
+title <- sprintf("Number of sites = %d Pearson correlation = %.3f Precision threshold = %d", nrow(PP_9_10), C, FT)
+rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+r <- rf(32)
+
+ggplot(PP_9_10, aes(ONT, WGBS)) +
+  geom_bin2d(bins=20) + scale_fill_gradientn(colors=r , trans="log10") +
+  ylab("Bisulfite Methylation Frequency") +
+  xlab("Nanopore Methylation Frequency") +
+  theme_bw(base_size=15)+
+  ggtitle("D9 WGBS and nCATS comparison",title)+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
