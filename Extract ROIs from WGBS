@@ -1,6 +1,6 @@
 library(methylKit)
 library(tidyverse)
-load("MethylKit_19samples_10X_5X_1X_210901.RData")
+load("/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_1X_210901.RData")
 #ROI1
 ###1X
 ROI1_cov_1X<-as_tibble(meth.filtered_1X) %>%
