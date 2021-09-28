@@ -1,0 +1,87 @@
+module load tools
+module load anaconda3/4.4.0 
+module load nanopolish/0.13.2
+module load samtools/1.9
+module load minimap2/2.6
+
+mkdir CrappyFish_nanopore
+cd CrappyFish_nanopore
+mkdir D1 D4 D9 D15
+
+# raw files were basecalled by cooperater using guppy version 5.0.11+2b6dbffa5 and the command: guppy_basecaller -r -i fast5/ -s . -x 'cuda:0 cuda:1' --kit SQK-CS9109 --flowcell FLO-MIN106 --fast5_out
+
+### Download files from ERDA e.g. 
+cd D1
+ERDA=https://sid.erda.dk/share_redirect/pfEQfEWxyN
+wget $ERDA/D1/D1_pass.tar.gz
+wget $ERDA/D1/D1_fast5.tar.gz
+
+### unzip
+tar -xvf D1_pass.tar.gz
+tar -xvf D1_fast5.tar.gz 
+
+## repeat for all samples 
+
+### Data preprocessing 
+for i in D1 D4 D9 D15 
+do
+nanopolish index -d $i/fast5/ $i/$i.fastq
+done
+
+### Alignment 
+Reference=/home/projects/ku-cbd/data/HoloFish/Salmon_REF_Genome/GCF_000233375.1_ICSASG_v2_genomic.fa
+for i in D1 D4 D9 D15 
+do
+minimap2 -a -t 40 -x map-ont $Reference $i/$i.fastq | samtools sort -@ 39 -T tmp -o $i/$i.sorted.bam
+samtools index $i/$i.sorted.bam
+done
+
+### Call methylation
+for i in D1 D4 D9 D15
+do 
+##ROI1
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:39,651,935-39,661,977" > $i/methylation_calls_ROI1.tsv
+##ROI2
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027311.1:58,028,040-58,038,276" > $i/methylation_calls_ROI2.tsv
+##ROI3
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:36,337,465-36,346,562" > $i/methylation_calls_ROI3.tsv
+##ROI4
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027305.1:35,743,727-35,753,253" > $i/methylation_calls_ROI4.tsv
+##ROI5
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027312.1:17,753,985-17,764,258" > $i/methylation_calls_ROI5.tsv
+##ROI6
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027313.1:61,014,780-61,028,987" > $i/methylation_calls_ROI6.tsv
+##ROI7
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027318.1:25,841,898-25,856,562" > $i/methylation_calls_ROI7.tsv
+##ROI8
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027302.1:50,233,895-50,243,301" > $i/methylation_calls_ROI8.tsv
+##ROI9
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027303.1:15,211,634-15,222,313" > $i/methylation_calls_ROI9.tsv
+##ROI10
+nanopolish call-methylation -t 40 -r $i/$i.fastq -b $i/$i.sorted.bam -g $Reference -w "NC_027310.1:26,101,625-26,112,398" > $i/methylation_calls_ROI10.tsv
+done
+
+## The coordinates of ONT and WGBS are not alligned, therefore the coordinates from the +strand needs to be +1 and the coordinates from the - strand +2
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+awk -F"\t" '$2 == "strand" || $2 == "+" { print $0 }' methylation_calls_$ROI.tsv > methylation_calls_plus_$ROI.tsv
+done 
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+awk -F"\t" '$2 == "strand" || $2 == "-" { print $0 }' methylation_calls_$ROI.tsv > methylation_calls_minus_$ROI.tsv
+done 
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+calculate_methylation_frequency.py methylation_calls_plus_$ROI.tsv | awk -F"\t" '{ print $0"\t"$2+1}' > methylation_frequency_plus_$ROI.tsv
+done 
+
+for ROI in ROI1 ROI2 ROI3 ROI4 ROI5 ROI6 ROI7 ROI8 ROI9 ROI10
+do 
+calculate_methylation_frequency.py methylation_calls_minus_$ROI.tsv | awk -F"\t" '{ print $0"\t"$2+2}' > methylation_frequency_minus_$ROI.tsv
+done 
+
+cat methylation_frequency_* | awk -F"\t" ' $4 == "1" { print $0 }' > D1_methylation_frequency.tsv
+
+## repeat for all samples and export files to local PC 
