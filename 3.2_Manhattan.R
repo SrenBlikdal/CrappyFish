@@ -1,8 +1,7 @@
 library(methylKit)
 library(tidyverse)
 library(qqman)
-methylkitworkspace<-("/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_210901.RData")
-load(methylkitworkspace)
+load("/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_210901.RData")
 
 ###5X sunset manhattan
 myDiff_t <- as_tibble(myDiff_5X)
