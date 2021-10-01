@@ -3,17 +3,17 @@ CrappyFish data analysis<br/>
 List of scripts and output files:
 
 1_Download_data.sh\ 
-  -Download the data from Novogene's servers
+  - Download the data from Novogene's servers
 
 2.0 FastQC AdapterRemoval and Bismark\
-  -QC with FastQC, trimming with adapterremoval, alingnment/methylation calling with bismark\
+  - QC with FastQC, trimming with adapterremoval, alingnment/methylation calling with bismark\
 Output files: "SAMPLE.pair1.truncated.gz_bismark_bt2_pe.multiple.deduplicated.bismark.cov.gz"
 
 3.0 methylKit.R\
-  -Importing the methylation call files into MethylKit\
-  -Filtering for 10X and 5X coverage in all samples\
-  -Finding significant deferentially methylated cytosines\
-  -Finding significant deferentially methylated regions\
+  - Importing the methylation call files into MethylKit\
+  - Filtering for 10X and 5X coverage in all samples\
+  - Finding significant deferentially methylated cytosines\
+  - Finding significant deferentially methylated regions\
 Output files: MethylKit_19samples_10X_5X_1X_210901.RData and MethylKit_19samples_10X_5X_210901.RData
 
 3.1 PCA.R \
