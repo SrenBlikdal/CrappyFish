@@ -1,0 +1,19 @@
+load("/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_210901.RData")
+
+c <- clusterSamples(meth.filtered_5X, dist="euclidean", filterByQuantile =T, sd.threshold =0.95, method="ward", plot=F)
+labelColors = c("red","blue")
+clusMember <- c("D1"=1, "D2"=1,"D3"=1,"D4"=2,"D5"=1, "D6"=2,"D8"=1,"D9"=1, "D10"=2, "D11"=1, "D12"=2,"D13"=1, "D14"=2,"D15"=2,"D16"=1, "D17"=2, "D18"=2, "D19"=1, "D20"=2) 
+
+# function to get color labels
+colLab <- function(n) {
+  if (is.leaf(n)) {
+    a <- attributes(n)
+    labCol <- labelColors[clusMember[which(names(clusMember) == a$label)]]
+    attr(n, "nodePar") <- c(a$nodePar, lab.col = labCol)
+  }
+  n
+}
+# using dendrapply
+clusDendro = dendrapply(as.dendrogram(c), colLab)
+
+plot(clusDendro, main = "CpG methylation Clustering", ylab = "Euclidean distance")
