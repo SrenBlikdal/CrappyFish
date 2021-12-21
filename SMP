@@ -1,5 +1,5 @@
-mydmr_100<-edmr(myDiff_5X,dist=150,DMC.methdiff = 0,num.DMCs = 3)
-HL<- as(myDiff_5X,"GRanges") %>% subsetByOverlaps(., mydmr_100)
+mydmr_150_10<-edmr(myDiff_5X,dist=150,DMC.methdiff = 0,num.DMCs = 10)
+HL<- as(myDiff_5X,"GRanges") %>% subsetByOverlaps(., mydmr_150_10) %>% as_tibble() 
 
 myDiff_t <- as_tibble(myDiff_5X)
 
@@ -17,7 +17,7 @@ SMP <- myDiff_t %>%
   
   # Calculate cumulative position of each chromosome
   mutate(tot=cumsum(as.numeric(chr_len))-chr_len) %>%
-  select(-chr_len) %>%
+  dplyr::select(-chr_len) %>%
   
   # Add this info to the initial dataset
   left_join(myDiff_t, ., by=c("chr"="chr")) %>%
