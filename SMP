@@ -1,3 +1,9 @@
+library(methylKit)
+library(tidyverse)
+library(qqman)
+library(edmr)
+load("/home/projects/ku-cbd/data/HoloFish/morten_fish/Epigenome/Novogene_CrappyFish_20samples_24Sep20_Analyses/MethylKit_19samples_10X_5X_210901.RData")
+
 mydmr_150_10<-edmr(myDiff_5X,dist=150,DMC.methdiff = 0,num.DMCs = 10)
 HL<- as(myDiff_5X,"GRanges") %>% subsetByOverlaps(., mydmr_150_10) %>% as_tibble() 
 
@@ -5,7 +11,9 @@ myDiff_t <- as_tibble(myDiff_5X)
 
 #Find pvalue threshold for qvalue>0.01
 
-notsig <- myDiff_t %>% subset(qvalue>=0.01)
+#notsig <- myDiff_t %>% subset(qvalue>=0.01)
+
+myDiff_t <- myDiff_t %>% subset(qvalue<=0.01)
 
 threshold_for_sig <- log10(min(notsig$pvalue))
 
@@ -32,12 +40,15 @@ SMP <- myDiff_t %>%
 
 SMP_HL<-left_join(HL, SMP, by=c("seqnames"="chr", "start"="start"))
 axisdf = SMP %>% group_by(chr) %>% summarize(center=(max(BPcum) + min(BPcum) ) / 2 )
-ggplot(SMP, aes(x=BPcum, y=(SMvalue))) +
+SMP$text <-paste("Chromosome: ", SMP$chr, "\nPOSITION: ",SMP$end, "\nMeth.Diff: ", SMP$meth.diff)
+SMP_HL$text <-paste("Chromosome: ", SMP_HL$seqnames, "\nPOSITION: ",SMP_HL$end.x, "\nMeth.Diff: ", SMP_HL$meth.diff.x)
+
+p<-ggplot(SMP, aes(x=BPcum, y=(SMvalue), text=text)) +
   
   # Show all points
-  geom_point(aes(color=as.factor(chr)), alpha=0.2, size=0.5) +
+  geom_point(aes(color=as.factor(chr)), alpha=0.2, size=1) +
   scale_color_manual(values = rep(c("orange", "black"),600)) +
-  geom_point(data= SMP_HL,aes(x=BPcum,y=SMvalue,color=as.factor(seqnames)),size=0.5,alpha=1) +
+  geom_point(data= SMP_HL,aes(x=BPcum,y=SMvalue,color=as.factor(seqnames)),size=1.2,alpha=1) +
   
   
   # custom X axis:
