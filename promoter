@@ -20,7 +20,7 @@ grep -f gene_2000.tsv GCF_000233375.1_ICSASG_v2_genomic_gene.bed > GCF_000233375
 #Make file with 50 promotors
 bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_gene.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r 0 -s > GCF_000233375.1_ICSASG_v2_genomic_50promoter.bed
 
-for i in {50..3000..50}
+for i in {50..6000..50}
 do awk -F"\t" '$2 < $3 { print $0 }' GCF_000233375.1_ICSASG_v2_genomic_$((i))promoter.bed |
 bedtools flank -i stdin -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_$((i+50))promoter.bed
 done
@@ -35,7 +35,7 @@ grep -f gene_10000.tsv GCF_000233375.1_ICSASG_v2_genomic_gene.bed > GCF_00023337
 #Make file with 50 promotors
 bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_gene_10000.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r 0 -s > GCF_000233375.1_ICSASG_v2_genomic_10000_50promoter.bed
 
-for i in {50..3000..50}
+for i in {50..6000..50}
 do awk -F"\t" '$2 < $3 { print $0 }' GCF_000233375.1_ICSASG_v2_genomic_10000_$((i))promoter.bed |
 bedtools flank -i stdin -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_10000_$((i+50))promoter.bed
 done
