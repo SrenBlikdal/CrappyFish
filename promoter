@@ -4,7 +4,7 @@ gunzip -d GCF_000233375.1_ICSASG_v2_genomic.fna.gz
 samtools faidx GCF_000233375.1_ICSASG_v2_genomic.fna
 cut -f1,2 GCF_000233375.1_ICSASG_v2_genomic.fna.fai > GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt
 
-#First step is to download GFF3 file from NCBI
+#First step is to download GFF3 file from NCBI *
 wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/233/375/GCF_000233375.1_ICSASG_v2/GCF_000233375.1_ICSASG_v2_genomic.gff.gz
 gunzip -d GCF_000233375.1_ICSASG_v2_genomic.gff.gz
 ## Reference for format: https://learn.gencore.bio.nyu.edu/ngs-file-formats/gff3-format
@@ -12,27 +12,20 @@ gunzip -d GCF_000233375.1_ICSASG_v2_genomic.gff.gz
 #Make file with only genes 
 awk '{if($3=="gene")print $0}' GCF_000233375.1_ICSASG_v2_genomic.gff > GCF_000233375.1_ICSASG_v2_genomic_gene.gff 
 convert2bed --input=gff < GCF_000233375.1_ICSASG_v2_genomic_gene.gff > GCF_000233375.1_ICSASG_v2_genomic_gene.bed
-bedtools merge -i GCF_000233375.1_ICSASG_v2_genomic_gene.bed > GCF_000233375.1_ICSASG_v2_genomic_gene_merged.bed 
+
+awk -F"\t" '$2 >= 0 { print $0 }' GCF_000233375.1_ICSASG_v2_genomic_gene.bed > GCF_000233375.1_ICSASG_v2_genomic_gene_f.bed 
+
+grep -f gene_2000.tsv GCF_000233375.1_ICSASG_v2_genomic_gene.bed > GCF_000233375.1_ICSASG_v2_genomic_gene_2000.bed 
 
 #Make file with 50 promotors
-bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_gene_2000.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r 0 -s > GCF_000233375.1_ICSASG_v2_genomic_50promoter.bed
+bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_gene.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r 0 -s > GCF_000233375.1_ICSASG_v2_genomic_50promoter.bed
 
-#Make file with 100 promotors
-bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_50promoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_100promoter.bed
+for i in {50..3000..50}
+do awk -F"\t" '$2 < $3 { print $0 }' GCF_000233375.1_ICSASG_v2_genomic_$((i))promoter.bed |
+bedtools flank -i stdin -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_$((i+50))promoter.bed
+done
 
-#Make file with 150 promotors
-bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_100promoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_150promoter.bed
-
-#Make file with 200 promotors
-bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_150promoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_200promoter.bed
-
-#Make file with 250 promotors
-bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_200promoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_250promoter.bed
-
-for i in {50..10000..50}
-do bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_$((i))promoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l 50 -r -0 -s > GCF_000233375.1_ICSASG_v2_genomic_$((i+50))promoter.bed
-done 
-
-for i in {50..-10000..50}
-do bedtools flank -i GCF_000233375.1_ICSASG_v2_genomic_$((i))promoter.bed -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l -0 -r 50 -s > GCF_000233375.1_ICSASG_v2_genomic_$((i-50))promoter.bed
+for i in {50..-3000..50}
+do awk -F"\t" '$2 < $3 { print $0 }' GCF_000233375.1_ICSASG_v2_genomic_$((i))promoter.bed |
+bedtools flank -i stdin -g GCF_000233375.1_ICSASG_v2_genomic_chrlength.txt -l -0 -r 50 -s > GCF_000233375.1_ICSASG_v2_genomic_$((i-50))promoter.bed
 done
